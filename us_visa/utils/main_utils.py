@@ -2,6 +2,7 @@ import yaml
 import dill
 import numpy as np
 import os
+from pandas import DataFrame
 
 import sys
 from us_visa.logger import logging
@@ -75,6 +76,20 @@ def save_object(file_path: str, obj: object):
         with open(file_path, "wb") as file_obj:
             dill.dump(obj, file_obj)
             logging.info("Exited the save object method of utils")
+
+    except Exception as e:
+        raise USVisaException(e, sys)
+
+
+# Drop Columns
+def drop_columns(data: DataFrame, columns: list) -> DataFrame:
+
+    logging.info("Entered drop column method of utils")
+
+    try:
+        data = data.drop(columns=columns, axis=1)
+        logging.info("Exited drop column method of utils")
+        return data
 
     except Exception as e:
         raise USVisaException(e, sys)
